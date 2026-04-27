@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Ujian SDN Mujahidin 05</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- STYLING HALAMAN LOGIN --- */
+        #login-page {
+            display: flex; /* Ditampilkan saat awal */
+            flex-direction: column;
+            align-items: center;
+            width: 320px;
+            padding: 40px 20px;
+            border: 3px solid #4CAF50;
+            border-radius: 40px;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .logo { width: 80px; margin-bottom: 20px; }
+        h1 { font-size: 1.2rem; margin: 0; font-weight: bold; }
+        h2 { font-size: 1.1rem; margin: 5px 0 30px 0; font-weight: normal; color: #555; }
+        
+        .input-group { margin-bottom: 15px; width: 100%; }
+        input {
+            width: 85%;
+            padding: 12px 15px;
+            border: 3px solid #42a5f5;
+            border-radius: 25px;
+            outline: none;
+        }
+
+        .btn-login {
+            width: 70%;
+            padding: 12px;
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        /* --- STYLING HALAMAN UJIAN (Hidden by default) --- */
+        #exam-page {
+            display: none; /* Disembunyikan dulu */
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+            padding: 10px;
+        }
+
+        .header-container {
+            width: 100%;
+            background-color: white;
+            border: 4px solid #4CAF50;
+            border-radius: 35px;
+            padding: 15px;
+            box-sizing: border-box;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .user-info-box {
+            border: 3px solid #42a5f5;
+            border-radius: 25px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .title-bar {
+            background-color: #007bff;
+            color: white;
+            padding: 5px 0;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .timer-box {
+            background-color: #c8e6c9;
+            border: 3px solid #42a5f5;
+            border-radius: 25px;
+            padding: 8px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .form-container {
+            width: 100%;
+            height: 70vh;
+            background-color: white;
+            border: 4px solid #42a5f5;
+            border-radius: 35px;
+            overflow: hidden;
+        }
+
+        iframe { width: 100%; height: 100%; border: none; }
+    </style>
+</head>
+<body>
+
+    <div id="login-page">
+        <img src="logo.png" alt="Logo" class="logo">
+        <h1>Ujian Nasional Mujahidin</h1>
+        <h2>SDN Mujahidin 05 Malang</h2>
+        
+        <div class="input-group">
+            <input type="text" id="username" placeholder="Username">
+        </div>
+        <div class="input-group">
+            <input type="text" id="nama" placeholder="Nama Siswa">
+        </div>
+        <div class="input-group">
+            <input type="text" id="nism" placeholder="Nomor Induk Mujahidin">
+        </div>
+        
+        <button class="btn-login" onclick="startExam()">LOGIN</button>
+    </div>
+
+    <div id="exam-page">
+        <div class="header-container">
+            <div class="user-info-box">
+                <h3 id="displayInfo">(Nama) - (User)</h3>
+                <p id="displayNISM">NISM: (Nomor Induk)</p>
+            </div>
+            <div class="title-bar">UJIAN NASIONAL MUJAHIDIN</div>
+            <div class="timer-box">Sisa Waktu : <span id="timer">1.00.00</span></div>
+        </div>
+
+        <div class="form-container">
+            <iframe src="https://forms.gle/msPCaJUNqgfSMcgf9">Memuat...</iframe>
+        </div>
+    </div>
+
+    <script>
+        function startExam() {
+            // Ambil data dari input login
+            const user = document.getElementById('username').value;
+            const nama = document.getElementById('nama').value;
+            const nism = document.getElementById('nism').value;
+
+            // Validasi sederhana (jangan kosong)
+            if(user === "" || nama === "" || nism === "") {
+                alert("Mohon isi semua data!");
+                return;
+            }
+
+            // Pindahkan data ke halaman ujian
+            document.getElementById('displayInfo').innerText = `${nama} - ${user}`;
+            document.getElementById('displayNISM').innerText = `NISM : ${nism}`;
+
+            // Sembunyikan login, tampilkan ujian
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('exam-page').style.display = 'flex';
+
+            // Mulai Timer
+            startTimer(3600); 
+        }
+
+        function startTimer(duration) {
+            let timer = duration, hours, minutes, seconds;
+            setInterval(function () {
+                hours = parseInt(timer / 3600, 10);
+                minutes = parseInt((timer % 3600) / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                timerElement = document.getElementById('timer');
+                timerElement.textContent = hours + "." + 
+                    (minutes < 10 ? "0" + minutes : minutes) + "." + 
+                    (seconds < 10 ? "0" + seconds : seconds);
+
+                if (--timer < 0) {
+                    timer = 0;
+                    alert("Waktu habis!");
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
