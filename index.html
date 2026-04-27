@@ -18,7 +18,7 @@
 
         /* --- STYLING HALAMAN LOGIN --- */
         #login-page {
-            display: flex; /* Ditampilkan saat awal */
+            display: flex;
             flex-direction: column;
             align-items: center;
             width: 320px;
@@ -55,9 +55,9 @@
             margin-top: 15px;
         }
 
-        /* --- STYLING HALAMAN UJIAN (Hidden by default) --- */
+        /* --- STYLING HALAMAN UJIAN --- */
         #exam-page {
-            display: none; /* Disembunyikan dulu */
+            display: none;
             flex-direction: column;
             align-items: center;
             width: 100%;
@@ -116,7 +116,7 @@
 <body>
 
     <div id="login-page">
-        <img src="logo.png" alt="Logo" class="logo">
+        <img src="Logo.png" alt="Logo" class="logo">
         <h1>Ujian Nasional Mujahidin</h1>
         <h2>SDN Mujahidin 05 Malang</h2>
         
@@ -144,49 +144,70 @@
         </div>
 
         <div class="form-container">
-            <iframe src="https://forms.gle/msPCaJUNqgfSMcgf9">Memuat...</iframe>
+            <iframe src="https://forms.gle/s4J6DsHLv4YfEkxNA">Memuat...</iframe>
         </div>
     </div>
 
     <script>
+        let isExamActive = false;
+        let timerInterval;
+
         function startExam() {
-            // Ambil data dari input login
             const user = document.getElementById('username').value;
             const nama = document.getElementById('nama').value;
             const nism = document.getElementById('nism').value;
 
-            // Validasi sederhana (jangan kosong)
             if(user === "" || nama === "" || nism === "") {
                 alert("Mohon isi semua data!");
                 return;
             }
 
-            // Pindahkan data ke halaman ujian
             document.getElementById('displayInfo').innerText = `${nama} - ${user}`;
             document.getElementById('displayNISM').innerText = `NISM : ${nism}`;
 
-            // Sembunyikan login, tampilkan ujian
             document.getElementById('login-page').style.display = 'none';
             document.getElementById('exam-page').style.display = 'flex';
 
-            // Mulai Timer
+            isExamActive = true;
             startTimer(3600); 
+        }
+
+        // DETEKSI KELUAR HALAMAN
+        document.addEventListener("visibilitychange", function() {
+            if (document.visibilityState === 'hidden' && isExamActive) {
+                forceLogout();
+            }
+        });
+
+        function forceLogout() {
+            isExamActive = false;
+            clearInterval(timerInterval); // Hentikan timer
+            
+            alert("Terdeteksi keluar dari halaman ujian! Anda harus login kembali.");
+            
+            // Kembalikan ke tampilan login
+            document.getElementById('login-page').style.display = 'flex';
+            document.getElementById('exam-page').style.display = 'none';
+            
+            // Kosongkan input agar harus isi ulang
+            document.getElementById('username').value = "";
+            document.getElementById('nama').value = "";
+            document.getElementById('nism').value = "";
         }
 
         function startTimer(duration) {
             let timer = duration, hours, minutes, seconds;
-            setInterval(function () {
+            timerInterval = setInterval(function () {
                 hours = parseInt(timer / 3600, 10);
                 minutes = parseInt((timer % 3600) / 60, 10);
                 seconds = parseInt(timer % 60, 10);
 
-                timerElement = document.getElementById('timer');
-                timerElement.textContent = hours + "." + 
+                document.getElementById('timer').textContent = hours + "." + 
                     (minutes < 10 ? "0" + minutes : minutes) + "." + 
                     (seconds < 10 ? "0" + seconds : seconds);
 
                 if (--timer < 0) {
-                    timer = 0;
+                    clearInterval(timerInterval);
                     alert("Waktu habis!");
                 }
             }, 1000);
