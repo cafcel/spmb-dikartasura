@@ -1,260 +1,295 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ujian Nasional SDN Mujahidin 05</title>
+    <title>Sistem Ujian SDN Mujahidin 05 Malang</title>
+    <link rel="icon" type="image/png" href="Logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-blue: #0077ff;
-            --primary-green: #4CAF50;
-            --soft-bg: #f0f4f8;
-            --white: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.9);
+            --primary-blue: #42a5f5;
+            --success-green: #4CAF50;
+            --danger-red: #d93025;
+            --tip-blue: #eef6ff; --tip-green: #f0fff4; --tip-yellow: #fffdf2;
+            --tip-purple: #f8f5ff; --tip-red: #fff5f5; --tip-cyan: #f0ffff;
         }
 
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #e0eafc, #cfdef3); /* Background Elegan */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: #eef2f7;
+            display: flex; justify-content: center;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        /* Efek Animasi Fade-In */
-        .fade-in {
-            animation: fadeIn 0.8s ease-in-out;
+        .main-container {
+            width: 100%; max-width: 450px;
+            background: #fff; display: flex;
+            flex-direction: column; position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .page-transition { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- STYLING HALAMAN LOGIN (SMOOTH & CLEAN) --- */
+        /* --- 1. HALAMAN LOGIN --- */
         #login-page {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 350px;
-            padding: 40px 30px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.3);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            height: 100vh; padding: 20px; box-sizing: border-box;
         }
-
-        .logo { 
-            width: 90px; 
-            margin-bottom: 20px;
-            transition: transform 0.3s;
+        .login-card {
+            width: 95%; background: white;
+            padding: 40px 20px; border-radius: 40px;
+            border: 4px solid var(--success-green);
+            text-align: center; box-sizing: border-box;
         }
-        .logo:hover { transform: scale(1.05); }
-
-        h1 { font-size: 1.4rem; margin: 0; color: #333; }
-        h2 { font-size: 1rem; margin: 5px 0 30px 0; font-weight: 400; color: #777; }
-        
-        .input-group { margin-bottom: 20px; width: 100%; }
-        input {
-            width: 100%;
-            padding: 14px 20px;
-            border: 2px solid #e1e8ed;
-            border-radius: 15px;
-            outline: none;
-            box-sizing: border-box;
-            transition: 0.3s;
-            font-size: 14px;
+        .login-card img { width: 80px; margin-bottom: 20px; }
+        .login-card h1 { font-size: 1.1rem; margin: 0; font-weight: 700; }
+        .login-card h2 { font-size: 1rem; margin: 5px 0 30px 0; font-weight: 400; color: #666; }
+        .login-card input {
+            width: 85%; padding: 12px 20px; margin-bottom: 15px;
+            border: 3px solid var(--primary-blue); border-radius: 30px;
+            outline: none; font-family: 'Poppins';
         }
-        input:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 8px rgba(0,119,255,0.2);
-        }
-
         .btn-login {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(to right, #00c6ff, #0072ff);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(0,114,255,0.3);
-        }
-        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,114,255,0.4); }
-
-        /* --- STYLING HALAMAN UJIAN --- */
-        #exam-page {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            width: 95%;
-            max-width: 600px;
-            padding: 20px;
+            width: 70%; padding: 12px;
+            background-color: #00bcd4; color: white;
+            border: none; border-radius: 30px;
+            font-weight: 700; cursor: pointer; margin-top: 15px;
         }
 
-        .header-container {
-            width: 100%;
-            background: white;
-            border-radius: 25px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            text-align: center;
-            margin-bottom: 20px;
+        /* --- 2. HALAMAN UTAMA --- */
+        #main-page { display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
+        
+        .header-welcome {
+            background-color: var(--primary-blue);
+            color: white; padding: 25px;
+            border-radius: 25px; margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(66, 165, 245, 0.3);
+            position: relative;
+        }
+        .btn-logout {
+            position: absolute; top: 15px; right: 15px;
+            background: rgba(255,255,255,0.2); color: white;
+            border: 1px solid white; padding: 5px 12px;
+            border-radius: 15px; font-size: 10px; font-weight: 700;
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn-logout:hover { background: var(--danger-red); border-color: var(--danger-red); }
+
+        .header-welcome h1 { font-size: 1.4rem; margin: 0; font-weight: 700; }
+        .header-welcome .user-info { font-size: 1.1rem; margin: 5px 0; font-weight: 400; }
+        .header-welcome .school-info { font-size: 0.9rem; margin: 0; opacity: 0.9; }
+        .header-welcome .title-tag { 
+            font-size: 0.8rem; margin-top: 15px; font-weight: 700; 
+            text-transform: uppercase; border-top: 1px solid rgba(255,255,255,0.3);
+            padding-top: 10px; display: block;
         }
 
-        .user-info-box {
-            background: #f8fafc;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-left: 5px solid var(--primary-blue);
+        .subject-card {
+            border: 2.5px solid var(--primary-blue);
+            border-radius: 20px; padding: 15px;
+            margin-bottom: 12px; display: flex;
+            justify-content: space-between; align-items: center;
+        }
+        .btn-mulai {
+            padding: 8px 20px; background: #bbdefb;
+            border: 2px solid #000; border-radius: 10px;
+            font-weight: 700; color: #333; cursor: pointer;
         }
 
-        .user-info-box h3 { margin: 0; font-size: 16px; color: #333; }
-        .user-info-box p { margin: 5px 0 0 0; color: #666; font-size: 13px; }
-
-        .title-bar {
-            background: var(--primary-blue);
-            color: white;
-            padding: 8px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 12px;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
+        /* --- GRID TIPS & TRIK --- */
+        .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .tip-box { padding: 12px; border-radius: 15px; font-size: 10px; line-height: 1.4; }
+        .tip-box strong { display: block; margin: 5px 0; font-size: 11px; }
+        .num-circle { 
+            width: 20px; height: 20px; color: white; 
+            border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; font-weight: bold; font-size: 10px;
         }
 
-        .timer-box {
-            font-size: 24px;
-            font-weight: 700;
-            color: #d32f2f;
-            background: #ffebee;
-            padding: 10px;
-            border-radius: 15px;
-            display: inline-block;
-            min-width: 150px;
+        /* --- 3. HALAMAN UJIAN --- */
+        #exam-page { 
+            display: none; flex-direction: column; height: 100vh; padding: 10px; 
+            background-image: radial-gradient(#d1d1d1 0.8px, transparent 0.8px); background-size: 24px 24px;
         }
-
-        .form-container {
-            width: 100%;
-            height: 75vh;
-            background: white;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
+        .exam-header { background: white; border: 4px solid var(--success-green); border-radius: 35px; padding: 10px; margin-bottom: 10px; }
+        .header-inner { border: 3px solid var(--primary-blue); border-radius: 25px; padding: 12px; text-align: center; }
+        .timer-box { background: #c8e6c9; border: 3px solid var(--primary-blue); border-radius: 25px; padding: 10px; text-align: center; font-weight: 700; margin-bottom: 10px; }
+        .iframe-container { flex: 1; border: 3px solid var(--primary-blue); border-radius: 35px; overflow: hidden; background: #fff; }
         iframe { width: 100%; height: 100%; border: none; }
+
+        .footer-credit { text-align: center; font-size: 10px; color: #888; padding: 20px 0; font-weight: 600; }
     </style>
 </head>
 <body>
 
-    <div id="login-page" class="fade-in">
-        <img src="Logo.png" alt="Logo" class="logo">
-        <h1>Ujian Nasional Mujahidin</h1>
-        <h2>SDN Mujahidin 05 Malang</h2>
+    <div class="main-container">
         
-        <div class="input-group"><input type="text" id="username" placeholder="Username"></div>
-        <div class="input-group"><input type="text" id="nama" placeholder="Nama Lengkap Siswa"></div>
-        <div class="input-group"><input type="text" id="nism" placeholder="Nomor Induk Siswa"></div>
-        
-        <button class="btn-login" onclick="startExam()">Mulai Ujian</button>
-    </div>
-
-    <div id="exam-page" class="fade-in">
-        <div class="header-container">
-            <div class="user-info-box">
-                <h3 id="displayInfo">Nama Siswa</h3>
-                <p id="displayNISM">NISM: 000000</p>
+        <div id="login-page" class="page-transition">
+            <div class="login-card">
+                <img src="Logo.png" alt="Logo">
+                <h1>Ujian Nasional Mujahidin</h1>
+                <h2>SDN Mujahidin 05 Malang</h2>
+                <input type="text" id="username" placeholder="Username">
+                <input type="text" id="nama" placeholder="Nama Siswa">
+                <input type="text" id="nism" placeholder="Nomor Induk Mujahidin">
+                <button class="btn-login" onclick="login()">LOGIN</button>
             </div>
-            <div class="title-bar">UJIAN NASIOANAL MUJAHIDIN</div>
-            <div class="timer-box" id="timer">01:00:00</div>
+            <div class="footer-credit">By FH Studio feat SDN Mujahidin 05 Malang</div>
         </div>
 
-        <div class="form-container">
-            <iframe src="https://forms.gle/s4J6DsHLv4YfEkxNA">Memuat...</iframe>
+        <div id="main-page" class="page-transition">
+            <div class="header-welcome">
+                <button class="btn-logout" onclick="manualLogout()">KELUAR</button>
+                <h1>Selamat Datang,</h1>
+                <div class="user-info" id="user-display">(Nama Siswa - Username)</div>
+                <div class="school-info">SDN Mujahidin 05 Malang</div>
+                <span class="title-tag">UJIAN NASIONAL MUJAHIDIN</span>
+            </div>
+
+            <div style="font-weight: 700; margin-bottom: 15px; font-size: 1.1rem;">Ujian Aktif</div>
+            
+            <div class="subject-card">
+                <div><strong>Pendidikan Agama Islam dan Budi Pekerti</strong><br><small>Senin, 27 April 2026</small></div>
+                <button class="btn-mulai" onclick="startExam('PAI', 'https://forms.gle/s4J6DsHLv4YfEkxNA')">Mulai</button>
+            </div>
+            <div class="subject-card">
+                <div><strong>Bahasa Indonesia</strong><br><small>Selasa, 28 April 2026</small></div>
+                <button class="btn-mulai" onclick="startExam('B.Indo', 'https://forms.gle/s4J6DsHLv4YfEkxNA')">Mulai</button>
+            </div>
+            <div class="subject-card">
+                <div><strong>Matematika</strong><br><small>Rabu, 29 April 2026</small></div>
+                <button class="btn-mulai" onclick="startExam('MTK', 'https://forms.gle/s4J6DsHLv4YfEkxNA')">Mulai</button>
+            </div>
+            <div class="subject-card">
+                <div><strong>IPA</strong><br><small>Kamis, 30 April 2026</small></div>
+                <button class="btn-mulai" onclick="startExam('IPA', 'https://forms.gle/s4J6DsHLv4YfEkxNA')">Mulai</button>
+            </div>
+
+            <div style="font-weight: 700; margin: 20px 0 10px 0;">Tips & Trik Mengerjakan Ujian</div>
+            <div class="tips-grid">
+                <div class="tip-box" style="background: var(--tip-blue);"><div class="num-circle" style="background:#4285f4">1</div><strong>Baca Soal Teliti</strong>Jangan terburu-buru pahami maksud soal.</div>
+                <div class="tip-box" style="background: var(--tip-green);"><div class="num-circle" style="background:#34a853">2</div><strong>Mudah Dulu</strong>Kerjakan yang yakin, baru yang sulit.</div>
+                <div class="tip-box" style="background: var(--tip-yellow);"><div class="num-circle" style="background:#fbbc05">3</div><strong>Atur Waktu</strong>Jangan terpaku pada satu soal sulit.</div>
+                <div class="tip-box" style="background: var(--tip-purple);"><div class="num-circle" style="background:#a142f4">4</div><strong>Jangan Panik</strong>Tetap fokus dan tarik napas dalam.</div>
+                <div class="tip-box" style="background: var(--tip-red);"><div class="num-circle" style="background:#ea4335">5</div><strong>Cek Kembali</strong>Gunakan sisa waktu untuk meneliti.</div>
+                <div class="tip-box" style="background: var(--tip-cyan);"><div class="num-circle" style="background:#24b4b4">6</div><strong>Simpan Otomatis</strong>Jawaban aman meski koneksi putus.</div>
+            </div>
+
+            <div class="footer-credit">By FH Studio feat SDN Mujahidin 05 Malang</div>
         </div>
+
+        <div id="exam-page" class="page-transition">
+            <div class="exam-header">
+                <div class="header-inner">
+                    <h3 id="ex-nama">Siswa - User</h3>
+                    <p id="ex-nism">NISM : 000000</p>
+                    <div style="background:var(--primary-blue); color:white; display:inline-block; padding:3px 15px; border-radius:5px; font-size:10px; font-weight:700; text-transform:uppercase;">UJIAN NASIONAL MUJAHIDIN</div>
+                </div>
+            </div>
+            <div class="timer-box">Sisa Waktu : <span id="time-left" style="color:var(--danger-red)">0.05.00</span></div>
+            <div class="iframe-container"><iframe id="exam-frame" src=""></iframe></div>
+            <button class="btn-login" style="margin-top:10px; background:var(--success-green); width:100%" onclick="finishExam()">SELESAI UJIAN</button>
+            <div class="footer-credit">By FH Studio feat SDN Mujahidin 05 Malang</div>
+        </div>
+
     </div>
 
     <script>
+        let timer;
         let isExamActive = false;
-        let timerInterval;
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        function playSiren() {
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            oscillator.type = 'triangle';
-            const now = audioCtx.currentTime;
-            oscillator.frequency.setValueAtTime(400, now);
-            oscillator.frequency.linearRampToValueAtTime(1000, now + 0.5);
-            oscillator.frequency.linearRampToValueAtTime(400, now + 1.0);
-            oscillator.frequency.linearRampToValueAtTime(1000, now + 1.5);
-            oscillator.frequency.linearRampToValueAtTime(400, now + 2.0);
-            gainNode.gain.setValueAtTime(0.5, now);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, now + 2.5);
-            oscillator.start();
-            oscillator.stop(now + 2.5);
-        }
-
-        function startExam() {
-            const user = document.getElementById('username').value;
-            const nama = document.getElementById('nama').value;
-            const nism = document.getElementById('nism').value;
-
-            if(!user || !nama || !nism) {
-                alert("Silakan lengkapi data login Anda.");
-                return;
-            }
-
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-
-            document.getElementById('displayInfo').innerText = `${nama} (${user})`;
-            document.getElementById('displayNISM').innerText = `NISM: ${nism}`;
-
-            // Transisi Halus
-            document.getElementById('login-page').style.display = 'none';
-            document.getElementById('exam-page').style.display = 'flex';
-
-            isExamActive = true;
-            startTimer(3600); 
-        }
-
+        // 1. Deteksi Pelanggaran (Pindah Tab)
         document.addEventListener("visibilitychange", function() {
             if (document.visibilityState === 'hidden' && isExamActive) {
-                playSiren();
-                isExamActive = false;
-                clearInterval(timerInterval);
-                alert("PELANGGARAN: Anda keluar dari halaman ujian! Sesi dihentikan.");
-                location.reload(); // Reload untuk kembali ke login secara bersih
+                alert("PELANGGARAN: Anda meninggalkan halaman ujian! Sesi akan dihentikan dan Anda harus login kembali.");
+                forceLogout();
             }
         });
 
-        function startTimer(duration) {
-            let timer = duration;
-            timerInterval = setInterval(() => {
-                let h = Math.floor(timer / 3600);
-                let m = Math.floor((timer % 3600) / 60);
-                let s = timer % 60;
-                document.getElementById('timer').textContent = 
-                    `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-                if (--timer < 0) {
-                    clearInterval(timerInterval);
-                    alert("Waktu ujian telah berakhir.");
+        // 2. Cegah Refresh/Tutup Tab
+        window.onbeforeunload = function() {
+            if (isExamActive) {
+                return "Ujian sedang berlangsung! Jika Anda keluar, sesi akan berakhir.";
+            }
+        };
+
+        function login() {
+            const u = document.getElementById('username').value;
+            const n = document.getElementById('nama').value;
+            const s = document.getElementById('nism').value;
+            if(!u || !n || !s) return alert("Mohon lengkapi data login!");
+            
+            document.getElementById('user-display').innerText = `${n} - ${u}`;
+            document.getElementById('ex-nama').innerText = `${n} - ${u}`;
+            document.getElementById('ex-nism').innerText = "NISM : " + s;
+            
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('main-page').style.display = 'flex';
+        }
+
+        // Fungsi Tombol Keluar Manual di Halaman Utama
+        function manualLogout() {
+            if(confirm("Apakah Anda yakin ingin keluar dari sistem?")) {
+                forceLogout();
+            }
+        }
+
+        function startExam(subjectName, formLink) {
+            if(!confirm(`Mulai ujian ${subjectName}?`)) return;
+
+            isExamActive = true;
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('exam-page').style.display = 'flex';
+            document.getElementById('exam-frame').src = formLink;
+
+            let sec = 300; // 5 Menit
+            timer = setInterval(() => {
+                let m = Math.floor(sec / 60); 
+                let s = sec % 60;
+                document.getElementById('time-left').innerText = `0.${m.toString().padStart(2, '0')}.${s.toString().padStart(2, '0')}`;
+                
+                if (sec <= 0) { 
+                    clearInterval(timer); 
+                    alert("Waktu habis! Anda akan kembali ke halaman utama.");
+                    backToMain(); 
                 }
+                sec--;
             }, 1000);
+        }
+
+        function backToMain() {
+            clearInterval(timer);
+            isExamActive = false;
+            document.getElementById('exam-frame').src = "";
+            document.getElementById('exam-page').style.display = 'none';
+            document.getElementById('main-page').style.display = 'flex';
+        }
+
+        function forceLogout() {
+            clearInterval(timer);
+            isExamActive = false;
+            document.getElementById('exam-frame').src = "";
+            document.getElementById('exam-page').style.display = 'none';
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('login-page').style.display = 'flex';
+            
+            // Reset form login demi keamanan
+            document.getElementById('username').value = "";
+            document.getElementById('nama').value = "";
+            document.getElementById('nism').value = "";
+        }
+
+        function finishExam() {
+            if(!confirm("Pastikan Anda sudah menekan tombol 'Kirim/Submit' di dalam soal sebelum keluar.")) return;
+            backToMain();
         }
     </script>
 </body>
 </html>
+
+```
