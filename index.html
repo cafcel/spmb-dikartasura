@@ -124,6 +124,60 @@
 
         .footer-credit { text-align: center; font-size: 10px; color: #888; padding: 20px 0; font-weight: 600; }
     </style>
+    <style>
+    /* ... kode asli tetap ada ... */
+    
+    .btn-fullscreen {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #333;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 50px;
+        cursor: pointer;
+        z-index: 1000;
+        font-size: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        opacity: 0.8;
+    }
+    .btn-fullscreen:hover { opacity: 1; transform: scale(1.05); }
+</style>
+
+<button class="btn-fullscreen" onclick="toggleFullScreen()">
+    <span id="fs-icon">⛶</span> <span id="fs-text">Layar Penuh</span>
+</button>
+
+<script>
+    /* ... kode asli tetap ada ... */
+
+    function toggleFullScreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                alert(`Error: Tidak bisa masuk mode layar penuh (${err.message})`);
+            });
+            document.getElementById('fs-text').innerText = "Keluar Layar Penuh";
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+                document.getElementById('fs-text').innerText = "Layar Penuh";
+            }
+        }
+    }
+
+    // Listener jika user tekan tombol Esc (sinkronisasi teks tombol)
+    document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement) {
+            document.getElementById('fs-text').innerText = "Layar Penuh";
+        }
+    });
+</script>
+
+    
 </head>
 <body>
 
